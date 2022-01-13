@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="board.css" th:href="@{/css/board.css}">
+  <title>Document</title>
+</head>
+
+<body>
+  <!-- Header -->
+  <div th:insert="common/header.html" id="header">Header</div>
+
+  <a href="#" th:href="@{/post}">글쓰기</a>
+  <table>
+    <thead>
+      <tr>
+        <th class="one wide">번호</th>
+        <th class="ten wide">글제목</th>
+        <th class="two wide">작성자</th>
+        <th class="three wide">작성일</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr th:each="board: ${boardList}">
+        <td><span th:text="${board.id}">id</span></td>
+        <td><a href="#" th:href="@{'/post/'+ ${board.id}}"><span th:text="${board.title}">title</span></a></td>
+        <td><span th:text="${board.writer}">writer</span></td>
+        <td><span th:text="${#temporals.format(board.createdDate, 'yyyy-MM-dd HH:mm')}">작성일</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div>
+    <span th:each="pageNum : ${pageList}" th:inline="text">
+      <a href="#" th:href="@{'/?page='+ ${pageNum}}">[[${pageNum}]]</a>
+    </span>
+  </div>
+
+  <form action="/board/search" method="get">
+    <div><input type="text" name="keyword" placeholder="검색어를 입력해주세요"></div>
+    <button>검색하기</button>
+  </form>
+
+  <!-- Footer -->
+  <div th:insert="common/footer.html" id="footer">Footer</div>
+</body>
+
+</html>
